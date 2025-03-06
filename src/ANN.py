@@ -8,7 +8,7 @@ class ANN:
     Parent class for Artificial Neural Networks (ANNs).
     This class handles model creation, training, evaluation, and visualization.
     """
-    def __init__(self, hidden_layer_sizes=(100,), learning_rate_init=0.001, max_iter=200):
+    def __init__(self, hidden_layer_sizes=(200,), learning_rate_init=0.0001, max_iter=100):
         self.model = MLPClassifier(hidden_layer_sizes=hidden_layer_sizes, 
                                    learning_rate_init=learning_rate_init, 
                                    max_iter=max_iter, 
