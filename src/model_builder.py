@@ -5,28 +5,24 @@ from sklearn.metrics import accuracy_score
 # Importing the parent: DataPreprocessing class from data_preprocess.py
 from src.data_preprocess import DataPreprocessing 
 
+#Importing the parent: ANN class from ANN.py
+from src.ANN import ANN
 
 class ModelBuilder(DataPreprocessing):
     def __init__(self, *args, **kwargs):
         super(ModelBuilder, self).__init__(*args, **kwargs)
+    
+    def ann_model(self, X_train, X_test, y_train, y_test):
+        # Create ANN model
+        ann = ANN(hidden_layer_sizes=(100,), learning_rate_init=0.01, max_iter=300)
 
-    def dt(self, X_train, X_test, y_train, y_test):
-        #Create DT model
-        DT_classifier = DecisionTreeClassifier()
+        # Train the model
+        ann.train(X_train, y_train)
 
-        #Train the model
-        DT_classifier.fit(X_train, y_train)
+        # Evaluate the model
+        self.accuracy = ann.evaluate(X_test, y_test)
 
-        #Test the model
-        DT_predicted = DT_classifier.predict(X_test)
+        # Plot loss curve
+        ann.plot_loss_curve()
 
-        error = 0
-        for i in range(len(y_test)):
-            error += np.sum(DT_predicted != y_test)
-
-        total_accuracy = 1 - error / len(y_test)
-
-        #get performance
-        self.accuracy = accuracy_score(y_test, DT_predicted)
-
-        return DT_classifier
+        return ann
